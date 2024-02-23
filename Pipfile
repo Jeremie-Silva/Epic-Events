@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 argparse = "*"
+sqlalchemy = "*"
+configparser = "*"
+psycopg2-binary = "*"
+alembic = "*"
 
 [dev-packages]
 
