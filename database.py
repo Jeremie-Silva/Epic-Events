@@ -1,6 +1,6 @@
 from configparser import ConfigParser
-from sqlalchemy import create_engine, Engine
-
+from sqlalchemy import create_engine, Engine, Column
+from sqlalchemy.orm import declarative_base, sessionmaker, Session
 
 config = ConfigParser()
 config.read("config.ini")
@@ -10,4 +10,20 @@ DATABASE_URI = f"postgresql+psycopg2://{db_config["user"]}:{db_config["password"
     f"@{db_config["host"]}/{db_config["name"]}"
 
 db: Engine = create_engine(DATABASE_URI)
-# Base.metadata.create_all(engine)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=db)
+
+
+def get_obj_in_db(model: any, key: str, value: any) -> any:
+    session: Session = SessionLocal()
+    column: Column = model.__table__.columns[key]
+    obj = session.query(model).filter(column == value).first()
+    session.close()
+    return obj
+
+
+def get_list_in_db(model: any):
+    session: Session = SessionLocal()
+    objects = session.query(model).all()
+    session.close()
+    return objects
