@@ -4,3 +4,4 @@ Autres models
 User auth
 menu selon User role
 
+Décorateur -> permissions
