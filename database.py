@@ -1,6 +1,6 @@
 from configparser import ConfigParser
 from sqlalchemy import create_engine, Engine, Column
-from sqlalchemy.orm import declarative_base, sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session
 
 config = ConfigParser()
 config.read("config.ini")
@@ -10,7 +10,6 @@ DATABASE_URI = f"postgresql+psycopg2://{db_config["user"]}:{db_config["password"
     f"@{db_config["host"]}/{db_config["name"]}"
 
 db: Engine = create_engine(DATABASE_URI)
-
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=db)
 
 
