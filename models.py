@@ -5,6 +5,7 @@ from datetime import datetime
 from passlib.hash import bcrypt
 from email_validator import validate_email
 from phonenumbers import parse, is_valid_number
+from database import Base
 
 
 class InvalidData(Exception):
@@ -35,9 +36,6 @@ class AbstractBaseModel:
             raise InvalidData("Invalid email")
 
 
-Base = declarative_base(cls=AbstractBaseModel)
-
-
 class UserRole(Enum):
     gestion = "gestion"
     commercial = "commercial"
@@ -49,7 +47,7 @@ class ContractState(Enum):
     waiting = "waiting"
 
 
-class User(Base):
+class User(Base, AbstractBaseModel):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), index=True, nullable=False)
@@ -63,7 +61,7 @@ class User(Base):
         return bcrypt.verify(plain_password, self.password)
 
 
-class Customer(Base):
+class Customer(Base, AbstractBaseModel):
     __tablename__ = "customers"
     id = Column(Integer, primary_key=True, autoincrement=True)
     salesman = relationship("User", backref="customers")
@@ -78,7 +76,7 @@ class Customer(Base):
         return f"Customer : {self.id} -> {self.name}"
 
 
-class Contract(Base):
+class Contract(Base, AbstractBaseModel):
     __tablename__ = "contracts"
     id = Column(Integer, primary_key=True, autoincrement=True)
     customer = relationship("Customer", backref="contracts")

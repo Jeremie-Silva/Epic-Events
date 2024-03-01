@@ -1,6 +1,6 @@
 from configparser import ConfigParser
 from sqlalchemy import create_engine, Engine, Column
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session, declarative_base
 
 config = ConfigParser()
 config.read("config.ini")
@@ -11,6 +11,8 @@ DATABASE_URI = f"postgresql+psycopg2://{db_config["user"]}:{db_config["password"
 
 db: Engine = create_engine(DATABASE_URI)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=db)
+
+Base = declarative_base()
 
 
 def get_obj_in_db(model: any, key: str, value: any) -> any:

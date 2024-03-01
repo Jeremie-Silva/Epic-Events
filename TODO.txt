@@ -11,5 +11,6 @@ Event models:
 
 User auth
 menu selon User role
+placer get_obj_in_db au bon endroit et en classmethod
 
 Décorateur -> permissions
