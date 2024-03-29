@@ -15,16 +15,16 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=db)
 Base = declarative_base()
 
 
-def get_obj_in_db(model: any, key: str, value: any) -> any:
-    session: Session = SessionLocal()
-    column: Column = model.__table__.columns[key]
-    obj = session.query(model).filter(column == value).first()
-    session.close()
-    return obj
-
-
-def get_list_in_db(model: any):
-    session: Session = SessionLocal()
-    objects = session.query(model).all()
-    session.close()
-    return objects
+# def get_obj_in_db(model: any, value: any, column_name="id") -> any:
+#     session: Session = SessionLocal()
+#     column: Column = model.__table__.columns[column_name]
+#     obj = session.query(model).filter(column == value).first()
+#     session.close()
+#     return obj
+#
+#
+# def get_list_in_db(model: any):
+#     session: Session = SessionLocal()
+#     objects = session.query(model).all()
+#     session.close()
+#     return objects

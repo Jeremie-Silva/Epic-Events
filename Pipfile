@@ -12,9 +12,18 @@ alembic = "*"
 passlib = "*"
 phonenumbers = "*"
 email-validator = "*"
+tabulate = "*"
+fastapi = "*"
+prefect = "*"
+uvicorn = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.12"
 python_full_version = "3.12.1"
+
+#[scripts]
+#start_api = "python app/main.py --reload"
+#start_prefect = "prefect server start"
+#init_project = ""
