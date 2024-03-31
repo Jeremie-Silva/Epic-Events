@@ -1,0 +1,54 @@
+roles:
+  - name: admin
+    permissions:  # pattern of definition : action entity scope
+      - read user all
+      - create user all
+      - update user all
+      - delete user all
+      - read contract all
+      - create contract all
+      - update contract all
+      - delete contract all
+      - read event all
+      - create event all
+      - update event all
+      - delete event all
+      - read customer all
+      - create customer all
+      - update customer all
+      - delete customer all
+      - read role all
+      - create role all
+      - update role all
+      - delete role all
+      - read permission all
+      - create permission all
+      - update permission all
+      - delete permission all
+  - name: gestion
+    permissions:  # pattern of definition : action entity scope
+      - read user all
+      - create user all
+      - update user all
+      - delete user all
+      - read contract all
+      - create contract all
+      - update contract all
+      - read event all
+      - update event all
+      - read customer all
+  - name: commercial
+    permissions:  # pattern of definition : action entity scope
+      - read contract all
+      - update contract linked
+      - read event all
+      - create event linked
+      - read customer all
+      - create customer all
+      - update customer linked
+  - name: support
+    permissions:  # pattern of definition : action entity scope
+      - read contract all
+      - read event all
+      - update event linked
+      - read customer all

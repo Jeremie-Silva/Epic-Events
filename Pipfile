@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 argparse = "*"
 sqlalchemy = "*"
-configparser = "*"
 psycopg2-binary = "*"
 alembic = "*"
 passlib = "*"
@@ -14,16 +13,19 @@ phonenumbers = "*"
 email-validator = "*"
 tabulate = "*"
 fastapi = "*"
-prefect = "*"
 uvicorn = "*"
+prefect = "*"
+python-decouple = "*"
+sqlalchemy-utils = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.12"
-python_full_version = "3.12.1"
+python_version = "3.11"
+python_full_version = "3.11.8"
 
-#[scripts]
-#start_api = "python app/main.py --reload"
-#start_prefect = "prefect server start"
-#init_project = ""
+[scripts]
+start_api = "python -m app.main --reload"
+start_prefect = "prefect server start"
+init_database = "bash -c \"source scripts/init_database.sh\""
+init_permissions = "python -m scripts.init_permissions"

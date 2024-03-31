@@ -1,19 +1,5 @@
-from fastapi import FastAPI
-from prefect import flow
 import uvicorn
-
-
-app = FastAPI()
-
-
-@flow(name="GET_ROOT", flow_run_name="efef")
-async def flow_for_root():
-    return {"message": f"Hello"}
-
-
-@app.get("/")
-async def say_hello():
-    return await flow_for_root()
+from app.core.router import app
 
 
 if __name__ == "__main__":
