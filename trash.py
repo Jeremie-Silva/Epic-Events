@@ -20,19 +20,7 @@ class AbstractBaseModel:
     # def is_valid_email(cls, email: str):
     #     if not validate_email(email):
     #         raise InvalidData("Invalid email")
-    #
-    # @classmethod
-    # def get_item(cls, **conditions) -> object | None:
-    #     session: Session = SessionLocal()
-    #     accumulated_query = session.query(cls)
-    #     for field, value in conditions.items():
-    #         accumulated_query = accumulated_query.filter(getattr(cls, field) == value)
-    #     return accumulated_query.first()
-    #
-    # @classmethod
-    # def get_list(cls) -> list[object]:
-    #     session: Session = SessionLocal()
-    #     return session.query(cls).all()
+
 
 class InvalidData(Exception):
     pass
