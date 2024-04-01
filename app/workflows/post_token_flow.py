@@ -10,6 +10,7 @@ from app.core.models import User
 
 @flow
 def post_token_flow(username: str, encrypted_password: str) -> dict:
+    """TODO: describe logical line by line"""
     user: User | None = DBSessionManager().get_obj_in_db(model=User, name=username)
 
     password: str = jwt_decode(
