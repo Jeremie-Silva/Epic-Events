@@ -1,0 +1,30 @@
+name: Epic-Events
+prefect-version: 2.16.8
+
+build: null
+push: null
+pull: null
+
+deployments:
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/workflows/get_user_flow.py:get_user_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/workflows/post_token_flow.py:post_token_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []

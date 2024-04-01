@@ -1,9 +1,8 @@
-utiliser le fichier yaml pour le déployement
-prefect work-pool create local-pool --type prefect-agent
+rendre le name -> username unique
 
-injection de permissions
+Gérer les permissions vec injection de dépendance
 
-
+est-ce que le fichier yaml est util ?
 
 
 Models :

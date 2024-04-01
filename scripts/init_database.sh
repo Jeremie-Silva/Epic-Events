@@ -14,3 +14,7 @@ sudo -u postgres psql -c "CREATE DATABASE ${POSTGRES_DB};" 2>/dev/null
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE ${POSTGRES_DB} TO ${POSTGRES_USER};" 2>/dev/null
 
 alembic upgrade head
+
+echo "This is your secret key :"
+python -c "import secrets; from rich import print as rprint; rprint(f'[bold red]{secrets.token_hex(nbytes=32)}')"
+echo "Put it in the .env file like this -> SECRET_KEY=xxxxxxxxxxxxxxxxxxxx"

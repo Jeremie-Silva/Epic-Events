@@ -17,6 +17,8 @@ uvicorn = "*"
 prefect = "*"
 python-decouple = "*"
 sqlalchemy-utils = "*"
+pyjwt = "*"
+pendulum = "*"
 
 [dev-packages]
 
@@ -25,7 +27,8 @@ python_version = "3.11"
 python_full_version = "3.11.8"
 
 [scripts]
-start_api = "python -m app.main --reload"
+start_api = "python -m app.main"
 start_prefect = "prefect server start"
 init_database = "bash -c \"source scripts/init_database.sh\""
 init_permissions = "python -m scripts.init_permissions"
+flow_deploy = "prefect deploy --all"

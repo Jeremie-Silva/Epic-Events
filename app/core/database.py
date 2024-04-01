@@ -1,10 +1,9 @@
 from typing import TypeVar, Union, Any
-
 from sqlalchemy import create_engine, Engine, Column, update, and_
 from sqlalchemy.orm import sessionmaker, Session
 from decouple import config
-
 from app.core.models import Event, Contract, Customer, User, Permission, Role
+
 
 DATABASE_URI = f"postgresql://{config('POSTGRES_USER')}:{config('POSTGRES_PASSWORD')}@"\
     f"{config('POSTGRES_HOST')}:{int(config('POSTGRES_PORT'))}/{config('POSTGRES_DB')}"
@@ -23,9 +22,12 @@ class DBSessionManager:
     def __init__(self, session: Session = None) -> None:
         self.session = session or SessionLocal()
 
-    def get_obj_in_db(self, model: AnyModels, value: Any, column_name="id") -> AnyModels | None:
-        column: Column = model.__table__.columns[column_name]
-        obj: AnyModels | None = self.session.query(model).filter(column == value).first()
+    def get_obj_in_db(self, model: AnyModels, **kwargs) -> AnyModels | None:
+        conditions: list = []
+        for column_name, value in kwargs.items():
+            column: Column = model.__table__.columns[column_name]
+            conditions.append(column == value)
+        obj: AnyModels | None = self.session.query(model).filter(and_(*conditions)).first()
         self.session.close()
         return obj
 
