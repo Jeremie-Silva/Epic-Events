@@ -19,44 +19,39 @@ AnyModels: TypeVar = TypeVar(
 )
 
 
-def get_obj_in_db(model: AnyModels, value: Any, column_name="id") -> AnyModels | None:
-    session: Session = SessionLocal()
-    column: Column = model.__table__.columns[column_name]
-    obj: AnyModels | None = session.query(model).filter(column == value).first()
-    session.close()
-    return obj
+class DBSessionManager:
+    def __init__(self, session: Session = None) -> None:
+        self.session = session or SessionLocal()
 
-
-def get_all_objs_in_db(model: AnyModels) -> list[AnyModels]:
-    session: Session = SessionLocal()
-    objs: list[AnyModels] = session.query(model).all()
-    session.close()
-    return objs
-
-
-def add_obj_in_db(obj: AnyModels) -> None:
-    session: Session = SessionLocal()
-    session.add(obj)
-    session.commit()
-    session.refresh(obj)
-    session.close()
-
-
-def update_obj_in_db(model: AnyModels, data: dict, **kwargs) -> None:
-    session: Session = SessionLocal()
-    conditions: list = []
-    for column_name, value in kwargs.items():
+    def get_obj_in_db(self, model: AnyModels, value: Any, column_name="id") -> AnyModels | None:
         column: Column = model.__table__.columns[column_name]
-        conditions.append(column == value)
-    session.execute(
-        update(model).where(and_(*conditions)).values(data)
-    )
-    session.commit()
-    session.close()
+        obj: AnyModels | None = self.session.query(model).filter(column == value).first()
+        self.session.close()
+        return obj
 
+    def get_all_objs_in_db(self, model: AnyModels) -> list[AnyModels]:
+        objs: list[AnyModels] = self.session.query(model).all()
+        self.session.close()
+        return objs
 
-def delete_obj_from_db(obj: AnyModels) -> None:
-    session: Session = SessionLocal()
-    session.delete(obj)
-    session.commit()
-    session.close()
+    def add_obj_in_db(self, obj: AnyModels) -> None:
+        self.session.add(obj)
+        self.session.commit()
+        self.session.refresh(obj)
+        self.session.close()
+
+    def update_obj_in_db(self, model: AnyModels, data: dict, **kwargs) -> None:
+        conditions: list = []
+        for column_name, value in kwargs.items():
+            column: Column = model.__table__.columns[column_name]
+            conditions.append(column == value)
+        self.session.execute(
+            update(model).where(and_(*conditions)).values(data)
+        )
+        self.session.commit()
+        self.session.close()
+
+    def delete_obj_from_db(self, obj: AnyModels) -> None:
+        self.session.delete(obj)
+        self.session.commit()
+        self.session.close()

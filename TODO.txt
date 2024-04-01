@@ -1,4 +1,9 @@
+utiliser le fichier yaml pour le déployement
+prefect work-pool create local-pool --type prefect-agent
+
 injection de permissions
+
+
 
 
 Models :
