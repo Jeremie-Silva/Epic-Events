@@ -19,6 +19,7 @@ python-decouple = "*"
 sqlalchemy-utils = "*"
 pyjwt = "*"
 pendulum = "*"
+argon2-cffi = "*"
 
 [dev-packages]
 
@@ -31,4 +32,5 @@ start_api = "python -m app.main"
 start_prefect = "prefect server start"
 init_database = "bash -c \"source scripts/init_database.sh\""
 init_permissions = "python -m scripts.init_permissions"
+create_admin = "python -m scripts.create_admin"
 flow_deploy = "prefect deploy --all"

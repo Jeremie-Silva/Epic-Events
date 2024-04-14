@@ -36,7 +36,7 @@ def upgrade() -> None:
     )
     op.create_table('user',
         sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-        sa.Column('name', sa.String(length=255), nullable=False),
+        sa.Column('name', sa.String(length=255), nullable=False, unique=True),
         sa.Column('password', sa.String(length=255), nullable=False),
         sa.Column('role_id', sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(['role_id'], ['role.id'], ),

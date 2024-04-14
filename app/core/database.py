@@ -22,7 +22,7 @@ class DBSessionManager:
     def __init__(self, session: Session = None) -> None:
         self.session = session or SessionLocal()
 
-    def get_obj_in_db(self, model: AnyModels, **kwargs) -> AnyModels | None:
+    def get_obj(self, model: AnyModels, **kwargs) -> AnyModels | None:
         conditions: list = []
         for column_name, value in kwargs.items():
             column: Column = model.__table__.columns[column_name]
@@ -31,18 +31,31 @@ class DBSessionManager:
         self.session.close()
         return obj
 
-    def get_all_objs_in_db(self, model: AnyModels) -> list[AnyModels]:
-        objs: list[AnyModels] = self.session.query(model).all()
+    def get_all_objs(
+        self,
+        model: AnyModels,
+        filters: dict = {},
+        linked_model: AnyModels = User,
+        linked_filters: dict = {},
+    ) -> list[AnyModels]:
+        conditions: list = []
+        for column_name, value in filters.items():
+            column: Column = model.__table__.columns[column_name]
+            conditions.append(column == value)
+        for column_name, value in linked_filters.items():
+            column: Column = linked_model.__table__.columns[column_name]
+            conditions.append(column == value)
+        objs: list[AnyModels] = self.session.query(model).filter(and_(*conditions)).all()
         self.session.close()
         return objs
 
-    def add_obj_in_db(self, obj: AnyModels) -> None:
+    def add_obj(self, obj: AnyModels) -> None:
         self.session.add(obj)
         self.session.commit()
         self.session.refresh(obj)
         self.session.close()
 
-    def update_obj_in_db(self, model: AnyModels, data: dict, **kwargs) -> None:
+    def update_obj(self, model: AnyModels, data: dict, **kwargs) -> None:
         conditions: list = []
         for column_name, value in kwargs.items():
             column: Column = model.__table__.columns[column_name]
@@ -53,7 +66,7 @@ class DBSessionManager:
         self.session.commit()
         self.session.close()
 
-    def delete_obj_from_db(self, obj: AnyModels) -> None:
+    def delete_obj(self, obj: AnyModels) -> None:
         self.session.delete(obj)
         self.session.commit()
         self.session.close()

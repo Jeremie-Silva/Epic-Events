@@ -1,17 +1,61 @@
-from fastapi import Header, HTTPException
+from fastapi import HTTPException
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 from decouple import config
-from jwt import decode as jwt_decode
+from jwt import decode as jwt_decode, DecodeError
 from pendulum import now as pendulum_now, parse as pendulum_parse
 from app.core.database import DBSessionManager
-from app.core.models import User
+from app.core.models import User, Permission, Scope
+from fastapi import Header, Depends
 
 
-def check_token(token: str = Header(None)) -> User:
-    payload: dict[str] = jwt_decode(
-        jwt=token, key=config("SECRET_KEY"), algorithms=["HS256"]
-    )
+hasher: PasswordHasher = PasswordHasher()
+db: DBSessionManager = DBSessionManager()
+
+
+def hash_password(password: str) -> str:
+    return hasher.hash(password)
+
+
+def verify_password(hashed_password: str, plain_password: str) -> bool:
+    try:
+        return hasher.verify(hashed_password, plain_password)
+    except VerifyMismatchError:
+        return False
+
+
+def decrypt_token(token: str = Header(...)) -> dict[str]:
+    try:
+        return jwt_decode(
+            jwt=token, key=config("SECRET_KEY"), algorithms=["HS256"]
+        )
+    except DecodeError:
+        print(str(token))
+        raise HTTPException(status_code=401, detail="The token is invalid")
+
+
+def check_token(payload: str = Depends(decrypt_token)) -> bool:
     expiry_date = pendulum_parse(text=payload["expiry"], tz="UTC")
     if pendulum_now(tz="UTC") > expiry_date:
         raise HTTPException(status_code=401, detail="The token is invalid")
-    user: User = DBSessionManager().get_obj_in_db(model=User, name=payload["username"])
+    return True
+
+
+def retrieve_user(payload: str = Depends(decrypt_token)) -> User:
+    user: User | None = db.get_obj(model=User, name=payload["username"])
+    if not user:
+        raise HTTPException(status_code=401, detail="The token is invalid")
     return user
+
+
+def define_scope(action: str, entity: str, user: User = Depends(retrieve_user)) -> str:
+    permissions: list[Permission] = db.get_all_objs(
+        model=Permission, filters={"role_id": user.role_id, "action": action, "entity": entity}
+    )
+    scopes = [permission.scope for permission in permissions]
+    if Scope.all in scopes:
+        return "all"
+    elif Scope.linked in scopes:
+        return "linked"
+    else:
+        return "me"

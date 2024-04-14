@@ -1,78 +1,21 @@
-rendre le name -> username unique
-
-Gérer les permissions vec injection de dépendance
-
-est-ce que le fichier yaml est util ?
-
-
-Models :
+Faire le dernier model Event + refactoring
+refactoring Models :
   - définir un role par défault
   - tester champs par défault
   - test last_update
 
+TU Models
+
+
+ajouter du printrich dans les scirpts et autres
 
 ---------------------------------------------------------------
-comment écrire le déployment des flows ?
-comment écrire les tests ?
-
-
-abstraire les Models ?
-séparer la classe abstraite en 2
-
-Event models:
-    --
-    --
-    --
-    --
-
-
-User auth
 
 Extras :
+  - utiliser typer pour le cli
   - fastapi (asynchrone, token, dependency injections)
   - pydantic avec ORM mode TRUE
   - prefect pour les logs
   - docker compose
   - endpoint pour collection postman
   - faire un script d'init avec docker compose
-
-
--------------------------------------------------------------------
-myproject/
-│
-├── app/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── cli.py
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── database.py
-│   │   ├── models.py
-│   │   ├── router.py
-│   │   └── permissions.py
-│   └── workflows/
-│       ├── __init__.py
-│       ├── workflow1.py
-│       └── workflow2.py
-│
-├── scripts/
-│   ├── init_db.py
-│   ├── init_permissions.py
-│   └── flows_deploy.py
-│
-├── tests/
-│   ├── __init__.py
-│   └── test_api.py
-│
-├── alembic/
-│   ├── env.py
-│   └── versions/
-│       └── migration.py
-│
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-├── .gitignore
-├── alembic.ini
-├── TODO.txt
-└── .env
