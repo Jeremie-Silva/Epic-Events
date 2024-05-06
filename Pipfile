@@ -20,6 +20,8 @@ sqlalchemy-utils = "*"
 pyjwt = "*"
 pendulum = "*"
 argon2-cffi = "*"
+pytest = "*"
+freezegun = "*"
 
 [dev-packages]
 

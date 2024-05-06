@@ -4,11 +4,14 @@ refactoring Models :
   - tester champs par défault
   - test last_update
 
-TU Models
-
+refaire une migration
 
 ajouter du printrich dans les scirpts et autres
 
+---------------------------------------------------------------
+TYPER :
+    -> 1er menu pour s'authentifier (dans une boucle)
+    -> 2eme menu
 ---------------------------------------------------------------
 
 Extras :
