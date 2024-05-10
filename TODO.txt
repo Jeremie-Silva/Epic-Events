@@ -3,8 +3,6 @@ refactoring Models :
   - test last_update
 
 
-ajouter du printrich dans les scirpts et autres
-
 ---------------------------------------------------------------
 TYPER :
     -> 1er menu pour s'authentifier (dans une boucle)
@@ -16,6 +14,6 @@ Extras :
   - fastapi (asynchrone, token, dependency injections)
   - pydantic avec ORM mode TRUE
   - prefect pour les logs
-  - docker compose
   - endpoint pour collection postman
-  - faire un script d'init avec docker compose
+
+ajouter du printrich dans les scirpts et autres
