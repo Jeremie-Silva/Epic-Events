@@ -1,6 +1,6 @@
-from typing import TypeVar, Union, Any
+from typing import TypeVar, Union
 from sqlalchemy import create_engine, Engine, Column, update, and_
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session, Query
 from decouple import config
 from app.core.models import Event, Contract, Customer, User, Permission, Role
 
@@ -8,8 +8,8 @@ from app.core.models import Event, Contract, Customer, User, Permission, Role
 DATABASE_URI = f"postgresql://{config('POSTGRES_USER')}:{config('POSTGRES_PASSWORD')}@"\
     f"{config('POSTGRES_HOST')}:{int(config('POSTGRES_PORT'))}/{config('POSTGRES_DB')}"
 
-db: Engine = create_engine(DATABASE_URI)
-SessionLocal: Session = sessionmaker(autocommit=False, autoflush=False, bind=db)
+db_engine: Engine = create_engine(DATABASE_URI)
+SessionLocal: Session = sessionmaker(autocommit=False, autoflush=False, bind=db_engine)
 
 
 AnyModels: TypeVar = TypeVar(
@@ -22,12 +22,17 @@ class DBSessionManager:
     def __init__(self, session: Session = None) -> None:
         self.session = session or SessionLocal()
 
-    def get_obj(self, model: AnyModels, **kwargs) -> AnyModels | None:
-        conditions: list = []
-        for column_name, value in kwargs.items():
+    def get_obj(self, model: AnyModels, join_filters={}, **filters) -> AnyModels | None:
+        """exemple of join_filters needed"""
+        query:  Query = self.session.query(model)
+        for model_join, conditions in join_filters.items():
+            for column_name, value in conditions.items():
+                column: Column = model_join.__table__.columns[column_name]
+                query = query.join(model_join).filter(column == value)
+        for column_name, value in filters.items():
             column: Column = model.__table__.columns[column_name]
-            conditions.append(column == value)
-        obj: AnyModels | None = self.session.query(model).filter(and_(*conditions)).first()
+            query = query.filter(column == value)
+        obj: AnyModels | None = query.first()
         self.session.close()
         return obj
 
@@ -49,11 +54,12 @@ class DBSessionManager:
         self.session.close()
         return objs
 
-    def add_obj(self, obj: AnyModels) -> None:
-        self.session.add(obj)
-        self.session.commit()
-        self.session.refresh(obj)
-        self.session.close()
+    def add_objs(self, *objs: list[AnyModels]) -> None:
+        for obj in objs:
+            self.session.add(obj)
+            self.session.commit()
+            self.session.refresh(obj)
+            self.session.close()
 
     def update_obj(self, model: AnyModels, data: dict, **kwargs) -> None:
         conditions: list = []
@@ -70,3 +76,6 @@ class DBSessionManager:
         self.session.delete(obj)
         self.session.commit()
         self.session.close()
+
+
+db: DBSessionManager = DBSessionManager()

@@ -22,7 +22,7 @@ def create_admin(username: str, hash_password: str):
     if admin_role is None:
         rprint(f"[bold red]Admin role not exist")
         return
-    db.add_obj(
+    db.add_objs(
         User(name=username, password=hash_password, role_id=admin_role.id),
     )
     rprint(f"[bold green]Admin created")

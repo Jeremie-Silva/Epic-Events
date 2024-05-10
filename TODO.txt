@@ -1,10 +1,7 @@
-Faire le dernier model Event + refactoring
 refactoring Models :
   - définir un role par défault
-  - tester champs par défault
   - test last_update
 
-refaire une migration
 
 ajouter du printrich dans les scirpts et autres
 

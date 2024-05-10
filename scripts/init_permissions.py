@@ -1,9 +1,6 @@
-from app.core.database import DBSessionManager
+from app.core.database import db, AnyModels
 import yaml
 from app.core.models import Role, Permission
-
-
-db: DBSessionManager = DBSessionManager()
 
 
 def get_permissions_config() -> list[dict]:
@@ -16,7 +13,7 @@ def allow_permissions(role: Role, permissions: list[str]) -> None:
         action: str = permission.split()[0]
         entity: str = permission.split()[1]
         scope: str = permission.split()[2]
-        db.add_obj(
+        db.add_objs(
             Permission(
                 action=action,
                 entity=entity,
@@ -30,5 +27,5 @@ if __name__ == "__main__":
     permissions_config: list[dict] = get_permissions_config()
     for role_config in permissions_config:
         new_role: Role = Role(name=role_config["name"])
-        db.add_obj(obj=new_role)
+        db.add_objs(new_role)
         allow_permissions(role=new_role, permissions=role_config["permissions"])

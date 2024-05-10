@@ -133,16 +133,16 @@ class Event(Base, AbstractBaseModel):
     notes = Column(String(255), nullable=True)
 
 
-@event.listens_for(Customer, "before_update", propagate=True)
-def timestamp_before_update(mapper, connection, target):
-    target.last_update = datetime.now
-
-
-@event.listens_for(Contract, "before_update", propagate=True)
-def timestamp_before_update(mapper, connection, target):
-    target.last_update = datetime.now
-
-
-@event.listens_for(User, "before_update", propagate=True)
-def timestamp_before_update(mapper, connection, target):
-    target.last_update = datetime.now
+# @event.listens_for(Customer, "before_update", propagate=True)
+# def timestamp_before_update(mapper, connection, target):
+#     target.last_update = datetime.now
+#
+#
+# @event.listens_for(Contract, "before_update", propagate=True)
+# def timestamp_before_update(mapper, connection, target):
+#     target.last_update = datetime.now
+#
+#
+# @event.listens_for(User, "before_update", propagate=True)
+# def timestamp_before_update(mapper, connection, target):
+#     target.last_update = datetime.now
