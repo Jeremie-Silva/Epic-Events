@@ -1,19 +1,19 @@
-refactoring Models :
-  - définir un role par défault
-  - test last_update
+Implémenter la function qui vérifie les permissions
+
+
+
 
 
 ---------------------------------------------------------------
-TYPER :
-    -> 1er menu pour s'authentifier (dans une boucle)
-    -> 2eme menu
+BUG : Models > last_update
+FEATURE : ajouter eventuellement du printrich dans les scirpts et autres prints
 ---------------------------------------------------------------
 
 Extras :
   - utiliser typer pour le cli
+    -> 1er menu pour s'authentifier (dans une boucle)
+    -> 2eme menu
   - fastapi (asynchrone, token, dependency injections)
   - pydantic avec ORM mode TRUE
   - prefect pour les logs
   - endpoint pour collection postman
-
-ajouter du printrich dans les scirpts et autres
