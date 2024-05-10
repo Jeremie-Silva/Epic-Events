@@ -23,7 +23,7 @@ class DBSessionManager:
         self.session = session or SessionLocal()
 
     def get_obj(self, model: AnyModels, join_filters={}, **filters) -> AnyModels | None:
-        """exemple of join_filters needed"""
+        """TODO: exemple of join_filters needed"""
         query:  Query = self.session.query(model)
         for model_join, conditions in join_filters.items():
             for column_name, value in conditions.items():
