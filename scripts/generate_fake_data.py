@@ -38,25 +38,20 @@ def generate_fake_instance(model: AnyModels, generate_fields: list[str], **kwarg
 
 
 def generate_users():
-    gestion_role: Role = db.get_obj(model=Role, name="gestion")
-    commercial_role: Role = db.get_obj(Role, name="commercial")
-    support_role: Role = db.get_obj(Role, name="support")
     fake_user_gestion: User = generate_fake_instance(
-        User, generate_fields=["id", "name", "password"], role_id=gestion_role.id
+        User, generate_fields=["id", "name", "password"], role=Role.gestion
     )
     fake_user_commercial: User = generate_fake_instance(
-        User, generate_fields=["id", "name", "password"],
-        role=commercial_role, role_id=commercial_role.id
+        User, generate_fields=["id", "name", "password"], role=Role.commercial
     )
     fake_user_support: User = generate_fake_instance(
-        User, generate_fields=["id", "name", "password"],
-        role=support_role, role_id=support_role.id
+        User, generate_fields=["id", "name", "password"],  role=Role.support
     )
     db.add_objs(fake_user_gestion, fake_user_commercial, fake_user_support)
 
 
 def generate_customers():
-    salesman: User = db.get_obj(model=User, join_filters={Role: {"name": "commercial"}})
+    salesman: User = db.get_obj(model=User, role=Role.commercial)
     fake_customer: User = generate_fake_instance(
         Customer, generate_fields=["id", "name", "email", "phone", "company_name"],
         salesman=salesman, salesman_id=salesman.id
@@ -66,7 +61,7 @@ def generate_customers():
 
 def generate_contracts():
     customer: Customer = db.get_obj(model=Customer)
-    salesman: User = db.get_obj(model=User, join_filters={Role: {"name": "commercial"}})
+    salesman: User = db.get_obj(model=User, role=Role.commercial)
     fake_contract_waiting: Contract = generate_fake_instance(
         Contract, generate_fields=["id", "amount_total", "amount_outstanding"],
         customer=customer, customer_id=customer.id, salesman=salesman, salesman_id=salesman.id
@@ -82,7 +77,7 @@ def generate_contracts():
 def generate_events():
     contract: Contract = db.get_obj(model=Contract)
     customer: Customer = db.get_obj(model=Customer)
-    support: User = db.get_obj(model=User, join_filters={Role: {"name": "support"}})
+    support: User = db.get_obj(model=User, role=Role.support)
     fake_event: Event = generate_fake_instance(
         Event, generate_fields=["id", "name", "start_date", "end_date", "location", "attendees", "notes"],
         contract=contract, contract_id=contract.id, customer=customer, customer_id=customer.id,

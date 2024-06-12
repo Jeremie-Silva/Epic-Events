@@ -1,34 +1,21 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from decouple import config
 from jwt import encode as jwt_encode
-from app.core.models import User
+from app.core.models import User, Role
 from app.core.permissions import (
     check_token,
     retrieve_user,
-    define_scope,
 )
-from app.workflows.get_user_flow import get_user_flow
-from app.workflows.post_token_flow import post_token_flow
-from functools import partial
+from app.endpoints.token.post_token import router as post_token_router
+from app.endpoints.user.get_user import router as get_user_router
+from app.endpoints.customer.get_customer import router as get_customer_router
+from app.endpoints.contract.get_contract import router as get_contract_router
+from app.endpoints.event.get_event import router as get_event_router
 
 
 app = FastAPI()
-
-
-@app.get("/user")
-def get_user(
-    user: User = Depends(retrieve_user),
-    is_authenticated: bool = Depends(check_token),
-    scope: str = Depends(partial(define_scope, action="read", entity="user"))
-):
-    return get_user_flow(user, is_authenticated, scope)
-
-
-@app.post("/token")
-def post_token(username: str, password: str):
-    encrypted_password: str = jwt_encode(
-        payload={"password": password},
-        key=config("SECRET_KEY"),
-        algorithm="HS256"
-    )
-    return post_token_flow(username, encrypted_password)
+app.include_router(post_token_router)
+app.include_router(get_user_router)
+app.include_router(get_customer_router)
+app.include_router(get_contract_router)
+app.include_router(get_event_router)

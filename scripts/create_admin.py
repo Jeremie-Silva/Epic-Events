@@ -18,12 +18,8 @@ def ask_password() -> str:
 
 
 def create_admin(username: str, hash_password: str):
-    admin_role: Role | None = db.get_obj(model=Role, name="admin")
-    if admin_role is None:
-        rprint(f"[bold red]Admin role not exist")
-        return
     db.add_objs(
-        User(name=username, password=hash_password, role_id=admin_role.id),
+        User(name=username, password=hash_password, role=Role.admin),
     )
     rprint(f"[bold green]Admin created")
 

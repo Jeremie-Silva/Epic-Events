@@ -1,5 +1,5 @@
 from prefect import flow
-from fastapi import HTTPException
+from fastapi import APIRouter, HTTPException
 from jwt import decode as jwt_decode, encode as jwt_encode
 from decouple import config
 from pendulum import now as pendulum_now
@@ -8,10 +8,13 @@ from app.core.models import User
 from app.core.permissions import verify_password
 
 
+router = APIRouter()
+db: DBSessionManager = DBSessionManager()
+
+
 @flow
 def post_token_flow(username: str, encrypted_password: str) -> dict:
-    """TODO: describe logical line by line"""
-    user: User | None = DBSessionManager().get_obj_in_db(model=User, name=username)
+    user: User | None = db.get_obj(model=User, name=username)
 
     password: str = jwt_decode(
         jwt=encrypted_password, key=config("SECRET_KEY"), algorithms=["HS256"]
@@ -27,3 +30,13 @@ def post_token_flow(username: str, encrypted_password: str) -> dict:
         algorithm="HS256"
     )
     return {"message": f"Hello {user.name} 👋", "token": token}
+
+
+@router.post("/token")
+def post_token(username: str, password: str):
+    encrypted_password: str = jwt_encode(
+        payload={"password": password},
+        key=config("SECRET_KEY"),
+        algorithm="HS256"
+    )
+    return post_token_flow(username, encrypted_password)

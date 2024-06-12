@@ -5,7 +5,7 @@ from decouple import config
 from jwt import decode as jwt_decode, DecodeError
 from pendulum import now as pendulum_now, parse as pendulum_parse
 from app.core.database import DBSessionManager
-from app.core.models import User, Permission, Scope
+from app.core.models import User
 from fastapi import Header, Depends
 
 
@@ -46,16 +46,3 @@ def retrieve_user(payload: str = Depends(decrypt_token)) -> User:
     if not user:
         raise HTTPException(status_code=401, detail="The token is invalid")
     return user
-
-
-def define_scope(action: str, entity: str, user: User = Depends(retrieve_user)) -> str:
-    permissions: list[Permission] = db.get_all_objs(
-        model=Permission, filters={"role_id": user.role_id, "action": action, "entity": entity}
-    )
-    scopes = [permission.scope for permission in permissions]
-    if Scope.all in scopes:
-        return "all"
-    elif Scope.linked in scopes:
-        return "linked"
-    else:
-        return "me"

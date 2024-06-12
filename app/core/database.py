@@ -2,7 +2,7 @@ from typing import TypeVar, Union
 from sqlalchemy import create_engine, Engine, Column, update, and_
 from sqlalchemy.orm import sessionmaker, Session, Query
 from decouple import config
-from app.core.models import Event, Contract, Customer, User, Permission, Role
+from app.core.models import Event, Contract, Customer, User, Role
 
 
 DATABASE_URI = f"postgresql://{config('POSTGRES_USER')}:{config('POSTGRES_PASSWORD')}@"\
@@ -14,7 +14,7 @@ SessionLocal: Session = sessionmaker(autocommit=False, autoflush=False, bind=db_
 
 AnyModels: TypeVar = TypeVar(
     name="AnyModels",
-    bound=Union[Role, Permission, User, Customer, Contract, Event]
+    bound=Union[Role, User, Customer, Contract, Event]
 )
 
 
@@ -23,7 +23,6 @@ class DBSessionManager:
         self.session = session or SessionLocal()
 
     def get_obj(self, model: AnyModels, join_filters={}, **filters) -> AnyModels | None:
-        """TODO: exemple of join_filters needed"""
         query:  Query = self.session.query(model)
         for model_join, conditions in join_filters.items():
             for column_name, value in conditions.items():
