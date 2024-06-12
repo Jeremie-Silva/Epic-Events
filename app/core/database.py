@@ -38,18 +38,18 @@ class DBSessionManager:
     def get_all_objs(
         self,
         model: AnyModels,
-        filters: dict = {},
         linked_model: AnyModels = User,
         linked_filters: dict = {},
+        **filters
     ) -> list[AnyModels]:
-        conditions: list = []
+        query:  Query = self.session.query(model)
         for column_name, value in filters.items():
             column: Column = model.__table__.columns[column_name]
-            conditions.append(column == value)
+            query = query.filter(column == value)
         for column_name, value in linked_filters.items():
             column: Column = linked_model.__table__.columns[column_name]
-            conditions.append(column == value)
-        objs: list[AnyModels] = self.session.query(model).filter(and_(*conditions)).all()
+            query = query.filter(column == value)
+        objs: list[AnyModels] = query.all()
         self.session.close()
         return objs
 

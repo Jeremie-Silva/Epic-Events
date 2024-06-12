@@ -10,10 +10,10 @@ db: DBSessionManager = DBSessionManager()
 
 
 @flow
-def get_all_customer_flow(user: User) -> dict:
+def get_all_customer_flow(user: UserSchema) -> dict:
     results = db.get_all_objs(model=Customer)
     return {
-        "user": UserSchema(**user.__dict__),
+        "user": user,
         "count": len(results),
         "results": [CustomerSchema(**i.__dict__) for i in results]
     }
@@ -26,6 +26,6 @@ def manager_get_customer(
 ):
     match user.role:
         case Role.admin | Role.gestion | Role.commercial | Role.support:
-            return get_all_customer_flow(user)
+            return get_all_customer_flow(UserSchema(**user.__dict__))
         case _:
             raise HTTPException(status_code=401, detail="Resource not permitted")

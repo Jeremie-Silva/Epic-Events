@@ -14,22 +14,23 @@ db: DBSessionManager = DBSessionManager()
 
 
 @flow
-def get_all_user_flow(user: UserSchema) -> dict:
-    results = db.get_all_objs(model=User)
+def post_user_flow(user: UserSchema, body: dict) -> dict:
+    new_user: User = User(**body)
+    db.add_objs(new_user)
     return {
-        "user": UserSchema(**user.__dict__),
-        "count": len(results),
-        "results": [UserSchema(**i.__dict__) for i in results]
+        "result": "User created successfully",
+        "new_user": UserSchema(**new_user.__dict__)
     }
 
 
-@router.get("/user")
-def manager_get_user(
+@router.post("/user")
+def manager_post_user(
+    body: dict,
     user: User = Depends(retrieve_user),
     is_authenticated: bool = Depends(check_token),
 ):
     match user.role:
-        case Role.admin | Role.gestion | Role.commercial | Role.support:
-            return get_all_user_flow(UserSchema(**user.__dict__))
+        case Role.admin | Role.gestion:
+            return post_user_flow(UserSchema(**user.__dict__), body)
         case _:
-            raise HTTPException(status_code=401, detail="Resource not permitted")
+            raise HTTPException(status_code=401, detail="Action not permitted")

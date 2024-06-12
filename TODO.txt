@@ -1,8 +1,5 @@
-Implémenter la function qui vérifie les permissions
-
-
-
-
+utiliser pydantic pour les posts
+vérifier les scripts après le refactoring
 
 ---------------------------------------------------------------
 BUG : Models > last_update

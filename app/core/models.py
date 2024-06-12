@@ -38,7 +38,7 @@ class User(Base):
 class Customer(Base):
     __tablename__ = "customer"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    salesman_id = Column(Integer, ForeignKey("user.id"))
+    salesman_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"), nullable=True)
     salesman = relationship("User", backref="customers")
     name = Column(String(255), index=True, nullable=False, unique=True)
     email = Column(String(255))
@@ -54,9 +54,9 @@ class Customer(Base):
 class Contract(Base):
     __tablename__ = "contract"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    customer_id = Column(Integer, ForeignKey("customer.id"), nullable=False)
+    customer_id = Column(Integer, ForeignKey("customer.id", ondelete="CASCADE"), nullable=True)
     customer = relationship("Customer", backref="contracts")
-    salesman_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    salesman_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"), nullable=True)
     salesman = relationship("User", backref="contracts")
     amount_total = Column(Float)
     amount_outstanding = Column(Float)
@@ -72,13 +72,13 @@ class Event(Base):
     __tablename__ = "event"
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), index=True, nullable=False)
-    contract_id = Column(Integer, ForeignKey("contract.id"), nullable=False)
+    contract_id = Column(Integer, ForeignKey("contract.id", ondelete="CASCADE"), nullable=True)
     contract = relationship("Contract", backref="events")
-    customer_id = Column(Integer, ForeignKey("customer.id"), nullable=False)
+    customer_id = Column(Integer, ForeignKey("customer.id", ondelete="CASCADE"), nullable=True)
     customer = relationship("Customer", backref="events")
     start_date = Column(DateTime, index=True)
     end_date = Column(DateTime)
-    support_contact_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    support_contact_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"), nullable=True)
     support = relationship("User", backref="supported_events")
     location = Column(String(255))
     attendees = Column(Integer, default=0)

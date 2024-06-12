@@ -1,8 +1,8 @@
 """User, Role, ContractState, Customer, Contract, Event
 
-Revision ID: 11ecd820acdc
+Revision ID: f32d057221ce
 Revises: 
-Create Date: 2024-06-12 11:43:21.678895
+Create Date: 2024-06-12 18:01:44.077767
 
 """
 from typing import Sequence, Union
@@ -13,7 +13,7 @@ from sqlalchemy.dialects import postgresql
 
 
 # revision identifiers, used by Alembic.
-revision: str = '11ecd820acdc'
+revision: str = 'f32d057221ce'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -40,38 +40,38 @@ def upgrade() -> None:
     sa.Column('company_name', sa.String(length=255), nullable=True),
     sa.Column('creation_date', sa.DateTime(), nullable=True),
     sa.Column('last_update', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['salesman_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['salesman_id'], ['user.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_customer_name'), 'customer', ['name'], unique=True)
     op.create_table('contract',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('customer_id', sa.Integer(), nullable=False),
-    sa.Column('salesman_id', sa.Integer(), nullable=False),
+    sa.Column('customer_id', sa.Integer(), nullable=True),
+    sa.Column('salesman_id', sa.Integer(), nullable=True),
     sa.Column('amount_total', sa.Float(), nullable=True),
     sa.Column('amount_outstanding', sa.Float(), nullable=True),
     sa.Column('creation_date', sa.DateTime(), nullable=True),
     sa.Column('last_update', sa.DateTime(), nullable=True),
     sa.Column('state', sa.Enum('signed', 'waiting', name='contractstate'), nullable=False),
-    sa.ForeignKeyConstraint(['customer_id'], ['customer.id'], ),
-    sa.ForeignKeyConstraint(['salesman_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['customer_id'], ['customer.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['salesman_id'], ['user.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_contract_state'), 'contract', ['state'], unique=False)
     op.create_table('event',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
-    sa.Column('contract_id', sa.Integer(), nullable=False),
-    sa.Column('customer_id', sa.Integer(), nullable=False),
+    sa.Column('contract_id', sa.Integer(), nullable=True),
+    sa.Column('customer_id', sa.Integer(), nullable=True),
     sa.Column('start_date', sa.DateTime(), nullable=True),
     sa.Column('end_date', sa.DateTime(), nullable=True),
     sa.Column('support_contact_id', sa.Integer(), nullable=True),
     sa.Column('location', sa.String(length=255), nullable=True),
     sa.Column('attendees', sa.Integer(), nullable=True),
     sa.Column('notes', sa.String(length=255), nullable=True),
-    sa.ForeignKeyConstraint(['contract_id'], ['contract.id'], ),
-    sa.ForeignKeyConstraint(['customer_id'], ['customer.id'], ),
-    sa.ForeignKeyConstraint(['support_contact_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['contract_id'], ['contract.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['customer_id'], ['customer.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['support_contact_id'], ['user.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_event_name'), 'event', ['name'], unique=False)
