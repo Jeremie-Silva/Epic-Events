@@ -14,7 +14,7 @@ db: DBSessionManager = DBSessionManager()
 @flow
 def post_contract_flow(user: UserSchema, body: dict) -> dict:
     try:
-        valid_contract: User = ContractSchema(**body)
+        valid_contract = ContractSchema(**body)
     except ValidationError as exc:
         raise HTTPException(status_code=422, detail=str(exc))
     new_contract = Contract(**valid_contract.__dict__)

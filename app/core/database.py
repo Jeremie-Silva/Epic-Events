@@ -53,6 +53,19 @@ class DBSessionManager:
         self.session.close()
         return objs
 
+    def get_all_objs_not_equal(
+        self,
+        model: AnyModels,
+        **filters
+    ) -> list[AnyModels]:
+        query:  Query = self.session.query(model)
+        for column_name, value in filters.items():
+            column: Column = model.__table__.columns[column_name]
+            query = query.filter(column != value)
+        objs: list[AnyModels] = query.all()
+        self.session.close()
+        return objs
+
     def add_objs(self, *objs: list[AnyModels]) -> None:
         for obj in objs:
             self.session.add(obj)

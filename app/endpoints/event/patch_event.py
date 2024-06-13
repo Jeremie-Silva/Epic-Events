@@ -16,6 +16,15 @@ def patch_event_flow(user: UserSchema, event_id: int, body: dict) -> dict:
     return {"result": "Values updated successfully"}
 
 
+@flow
+def patch_related_event_flow(user: UserSchema, event_id: int, body: dict) -> dict:
+    event_targeted = db.get_obj(model=Event, id=event_id)
+    if event_targeted.support_contact_id != user.id:
+        raise HTTPException(status_code=401, detail="Action not permitted")
+    db.update_obj(model=Event, data=body, id=event_id)
+    return {"result": "Values updated successfully"}
+
+
 @router.patch("/event/{event_id}")
 def manager_patch_event(
     event_id: int,
@@ -25,7 +34,9 @@ def manager_patch_event(
     support: bool = Query(False, description="Optional filter")
 ):
     match user.role:
-        case Role.admin | Role.gestion | Role.commercial | Role.support:
+        case Role.admin | Role.gestion | Role.commercial:
             return patch_event_flow(UserSchema(**user.__dict__), event_id, body)
+        case Role.support:
+            return patch_related_event_flow(UserSchema(**user.__dict__), event_id, body)
         case _:
             raise HTTPException(status_code=401, detail="Resource not permitted")

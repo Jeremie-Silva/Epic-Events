@@ -44,16 +44,16 @@ class ContractSchema(BaseModel):
 
 
 class EventSchema(BaseModel):
-    id: int
+    id: Optional[int | None] = None
     name: str
-    contract_id: int
-    customer_id: int
+    contract_id: Optional[int | None] = None
+    customer_id: Optional[int | None] = None
     support_contact_id: Optional[int | None] = None
     location: str
     attendees: int
     notes: str
-    start_date: datetime
-    end_date: datetime
+    start_date: Optional[datetime | None] = None
+    end_date: Optional[datetime | None] = None
 
     class Config:
         orm_mode = True
