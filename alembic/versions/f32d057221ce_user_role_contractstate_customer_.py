@@ -29,7 +29,7 @@ def upgrade() -> None:
     sa.Column('last_update', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_user_name'), 'user', ['name'], unique=False)
+    op.create_index(op.f('ix_user_name'), 'user', ['name'], unique=True)
     op.create_index(op.f('ix_user_role'), 'user', ['role'], unique=False)
     op.create_table('customer',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),

@@ -5,11 +5,12 @@ from app.core.models import ContractState
 
 
 class UserSchema(BaseModel):
-    id: int
+    id: Optional[int | None] = None
+    password: Optional[str | None] = None
     name: str
     role: str
-    creation_date: Optional[datetime]
-    last_update: Optional[datetime]
+    creation_date: Optional[datetime | None] = None
+    last_update: Optional[datetime | None] = None
 
     class Config:
         orm_mode = True

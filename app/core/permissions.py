@@ -30,7 +30,6 @@ def decrypt_token(token: str = Header(...)) -> dict[str]:
             jwt=token, key=config("SECRET_KEY"), algorithms=["HS256"]
         )
     except DecodeError:
-        print(str(token))
         raise HTTPException(status_code=401, detail="The token is invalid")
 
 

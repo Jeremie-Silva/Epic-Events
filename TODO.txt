@@ -1,9 +1,7 @@
-utiliser pydantic pour les posts
-vérifier les scripts après le refactoring
-
----------------------------------------------------------------
+BUG : post user > hash password
 BUG : Models > last_update
-FEATURE : ajouter eventuellement du printrich dans les scirpts et autres prints
+readme.md
+1376 lignes et 26 fichiers.py
 ---------------------------------------------------------------
 
 Extras :

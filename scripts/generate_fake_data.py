@@ -2,6 +2,7 @@ from random import randint
 from app.core.database import db, AnyModels
 from app.core.models import User, Role, Customer, Contract, Event
 from faker import Faker
+from rich import print as rprint
 
 
 fake = Faker("fr_FR")
@@ -48,6 +49,7 @@ def generate_users():
         User, generate_fields=["id", "name", "password"],  role=Role.support
     )
     db.add_objs(fake_user_gestion, fake_user_commercial, fake_user_support)
+    rprint(f"[bold green]3 Users created")
 
 
 def generate_customers():
@@ -57,6 +59,7 @@ def generate_customers():
         salesman=salesman, salesman_id=salesman.id
     )
     db.add_objs(fake_customer)
+    rprint(f"[bold green]1 Customer created")
 
 
 def generate_contracts():
@@ -72,6 +75,7 @@ def generate_contracts():
         state="signed"
     )
     db.add_objs(fake_contract_waiting, fake_contract_signed)
+    rprint(f"[bold green]2 Contracts created")
 
 
 def generate_events():
@@ -84,6 +88,7 @@ def generate_events():
         support=support, support_contact_id=support.id
     )
     db.add_objs(fake_event)
+    rprint(f"[bold green]1 Event created")
 
 
 if __name__ == "__main__":

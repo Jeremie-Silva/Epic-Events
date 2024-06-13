@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import ValidationError
 from prefect import flow
 from app.core.models import User, Role
 from app.core.permissions import (
@@ -15,7 +16,11 @@ db: DBSessionManager = DBSessionManager()
 
 @flow
 def post_user_flow(user: UserSchema, body: dict) -> dict:
-    new_user: User = User(**body)
+    try:
+        valid_user = UserSchema(**body)
+    except ValidationError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    new_user = User(**valid_user.__dict__)
     db.add_objs(new_user)
     return {
         "result": "User created successfully",

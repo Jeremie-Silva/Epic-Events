@@ -23,6 +23,7 @@ argon2-cffi = "*"
 pytest = "*"
 freezegun = "*"
 faker = "*"
+inquirer = "*"
 
 [dev-packages]
 
@@ -34,7 +35,7 @@ python_full_version = "3.11.8"
 start_api = "python -m app.main"
 start_prefect = "prefect server start"
 init_database = "bash -c \"source scripts/init_database.sh\""
-init_permissions = "python -m scripts.init_permissions"
 generate_fake_data = "python -m scripts.generate_fake_data"
 create_admin = "python -m scripts.create_admin"
-flow_deploy = "prefect deploy --all"
+flow_deploy = "yes n | prefect deploy --all"
+cli = "python -m app.cli"

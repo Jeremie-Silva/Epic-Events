@@ -25,7 +25,7 @@ class Role(Enum):
 class User(Base):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(255), index=True, nullable=False)
+    name = Column(String(255), index=True, nullable=False, unique=True)
     password = Column(String(255), nullable=False)
     role = Column(SQLEnum(Role), default=Role.commercial, nullable=False, index=True)
     creation_date = Column(DateTime, default=datetime.now)
