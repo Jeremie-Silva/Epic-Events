@@ -57,5 +57,6 @@ def manager_get_event(
                 return get_no_support_event_flow(UserSchema(**user.__dict__))
             if related_to_me:
                 return get_related_event_flow(UserSchema(**user.__dict__))
+            return get_all_event_flow(UserSchema(**user.__dict__))
         case _:
             raise HTTPException(status_code=401, detail="Resource not permitted")

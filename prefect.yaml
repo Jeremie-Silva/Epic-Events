@@ -6,22 +6,252 @@ push: null
 pull: null
 
 deployments:
+
 - name: default
   version: null
   tags: []
   description: null
-  entrypoint: app/workflows/get_user_flow.py:get_user_flow
+  entrypoint: app/endpoints/token/post_token.py:post_token_flow
   parameters: {}
   work_pool:
     name: jigi
     work_queue_name: null
     job_variables: {}
   schedules: []
+
 - name: default
   version: null
   tags: []
   description: null
-  entrypoint: app/workflows/post_token_flow.py:post_token_flow
+  entrypoint: app/endpoints/user/get_user.py:get_all_user_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/user/patch_user.py:patch_user_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/user/post_user.py:post_user_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/user/delete_user.py:delete_user_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/event/get_event.py:get_all_event_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/event/get_event.py:get_no_support_event_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/event/get_event.py:get_related_event_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/event/patch_event.py:patch_event_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/event/patch_event.py:patch_related_event_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/event/post_event.py:post_event_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/customer/get_customer.py:get_all_customer_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/customer/patch_customer.py:patch_customer_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/customer/patch_customer.py:patch_related_customer_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/customer/post_customer.py:post_customer_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/contract/get_contract.py:get_all_contract_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/contract/get_contract.py:get_not_signed_contract_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/contract/get_contract.py:get_not_paid_contract_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/contract/patch_contract.py:patch_contract_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/contract/patch_contract.py:patch_related_contract_flow
+  parameters: {}
+  work_pool:
+    name: jigi
+    work_queue_name: null
+    job_variables: {}
+  schedules: []
+
+- name: default
+  version: null
+  tags: []
+  description: null
+  entrypoint: app/endpoints/contract/post_contract.py:post_contract_flow
   parameters: {}
   work_pool:
     name: jigi
