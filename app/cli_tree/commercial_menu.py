@@ -14,7 +14,7 @@ def _ask_choices() -> dict:
             choices=[
                 " 1 - Liste des UTILISATEURS",
                 " 2 - Liste des CLIENTS",
-                " 3 - Modifier un CLIENT",
+                " 3 - Modifier un de mes CLIENTS",
                 " 4 - Créer un CLIENT",
                 " 5 - Liste des CONTRATS",
                 " 6 - Liste des CONTRATS non signés",

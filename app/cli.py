@@ -34,7 +34,7 @@ LOGO: str = """
 
 def menu_authentication() -> User | None:
     username: str = typer.prompt(text="Username ")
-    password: str = typer.prompt(text="Password ", hide_input=True, confirmation_prompt=True)
+    password: str = typer.prompt(text="Password ", hide_input=True)
     user: User | None = db.get_obj(model=User, name=username)
     if user is None:
         return rprint(f"[bold red]Invalid username or password.")

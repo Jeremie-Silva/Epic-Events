@@ -1,7 +1,7 @@
 import typer
 from rich import print as rprint
 from tabulate import tabulate
-
+from fastapi import HTTPException
 from app.core.models import User
 from app.core.schemas import UserSchema
 from app.endpoints.contract.get_contract import get_all_contract_flow, get_not_signed_contract_flow, \
@@ -98,8 +98,11 @@ def cli_get_all_customer(user: User):
 def cli_patch_related_customer(user: User):
     customer_id: int = int(typer.prompt(text="ID du client "))
     body: dict = ask_body_data("salesman_id", "name", "email", "phone", "company_name")
-    data: dict = patch_related_customer_flow(UserSchema(**user.__dict__), customer_id, body)
-    rprint(f"[bold green]{data['result']}")
+    try:
+        data: dict = patch_related_customer_flow(UserSchema(**user.__dict__), customer_id, body)
+        rprint(f"[bold green]{data['result']}")
+    except HTTPException:
+        rprint(f"[bold red] Action not permitted")
 
 
 def cli_post_customer(user: User):
@@ -183,8 +186,11 @@ def cli_patch_related_event(user: User):
     event_id: int = int(typer.prompt(text="ID de l'évènement "))
     body: dict = ask_body_data("name", "contract_id", "customer_id",
                                "support_contact_id", "location", "attendees", "notes")
-    data: dict = patch_related_event_flow(UserSchema(**user.__dict__), event_id, body)
-    rprint(f"[bold green]{data['result']}")
+    try:
+        data: dict = patch_related_event_flow(UserSchema(**user.__dict__), event_id, body)
+        rprint(f"[bold green]{data['result']}")
+    except HTTPException:
+        rprint(f"[bold red] Action not permitted")
 
 
 def cli_post_event(user: User):
@@ -268,8 +274,11 @@ def cli_patch_related_contract(user: User):
     body: dict = ask_body_data(
         "customer_id", "salesman_id", "amount_total", "amount_outstanding", "state"
     )
-    data: dict = patch_related_contract_flow(UserSchema(**user.__dict__), contract_id, body)
-    rprint(f"[bold green]{data['result']}")
+    try:
+        data: dict = patch_related_contract_flow(UserSchema(**user.__dict__), contract_id, body)
+        rprint(f"[bold green]{data['result']}")
+    except HTTPException:
+        rprint(f"[bold red] Action not permitted")
 
 
 def cli_post_contract(user: User):

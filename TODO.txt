@@ -1,16 +1,1 @@
-sentry
-
-BUG : post user > hash password
-BUG : catch les http 401 error
-BUG : vérifier à chaque fois que l'on récupere bien quelque chose dans la bdd
-
-
 readme.md
----------------------------------------------------------------
-
-Extras :
-  - utiliser typer pour le cli
-  - fastapi (asynchrone, token, dependency injections)
-  - pydantic avec ORM mode TRUE
-  - prefect pour les logs
-  - endpoint pour collection postman
