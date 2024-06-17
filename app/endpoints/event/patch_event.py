@@ -19,6 +19,8 @@ def patch_event_flow(user: UserSchema, event_id: int, body: dict) -> dict:
 @flow
 def patch_related_event_flow(user: UserSchema, event_id: int, body: dict) -> dict:
     event_targeted = db.get_obj(model=Event, id=event_id)
+    if not event_targeted:
+        raise HTTPException(status_code=404, detail="Event not found")
     if event_targeted.support_contact_id != user.id:
         raise HTTPException(status_code=401, detail="Action not permitted")
     db.update_obj(model=Event, data=body, id=event_id)

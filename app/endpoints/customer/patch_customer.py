@@ -13,6 +13,8 @@ db: DBSessionManager = DBSessionManager()
 @flow
 def patch_related_customer_flow(user: UserSchema, customer_id: int, body: dict) -> dict:
     customer_targeted = db.get_obj(model=Customer, id=customer_id)
+    if not customer_targeted:
+        raise HTTPException(status_code=404, detail="Customer not found")
     if customer_targeted.salesman_id != user.id:
         raise HTTPException(status_code=401, detail="Action not permitted")
     db.update_obj(model=Customer, data=body, id=customer_id)

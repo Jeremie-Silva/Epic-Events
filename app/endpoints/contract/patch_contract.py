@@ -20,6 +20,8 @@ def patch_contract_flow(user: UserSchema, contract_id: int, body: dict) -> dict:
 @flow
 def patch_related_contract_flow(user: UserSchema, contract_id: int, body: dict) -> dict:
     contract_targeted = db.get_obj(model=Contract, id=contract_id)
+    if not contract_targeted:
+        raise HTTPException(status_code=404, detail="Contract not found")
     if contract_targeted.salesman_id != user.id:
         raise HTTPException(status_code=401, detail="Action not permitted")
     db.update_obj(model=Contract, data=body, id=contract_id)

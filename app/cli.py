@@ -7,6 +7,8 @@ from app.core.database import DBSessionManager
 from app.core.models import User, Role
 from app.core.permissions import verify_password
 from app.cli_tree.gestion_menu import menu_gestion
+from sentry_sdk.integrations.wsgi import SentryWsgiMiddleware
+import sentry_sdk
 
 
 console = Console()
@@ -63,4 +65,13 @@ def main():
 
 
 if __name__ == "__main__":
-    typer.run(main)
+    sentry_sdk.init(
+        dsn="https://a4181e4aaa9429fe233bd21261ddc96d@o4507430341902336.ingest.de.sentry.io/4507446729900112",
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+    )
+    try:
+        typer.run(main)
+    except Exception as e:
+        sentry_sdk.capture_exception(e)
+        raise

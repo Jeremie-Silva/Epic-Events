@@ -14,6 +14,8 @@ db: DBSessionManager = DBSessionManager()
 @flow
 def post_event_flow(user: UserSchema, body: dict) -> dict:
     customer_targeted = db.get_obj(model=Customer, id=body["customer_id"])
+    if not customer_targeted:
+        raise HTTPException(status_code=404, detail="Customer not found")
     if customer_targeted.salesman_id != user.id:
         raise HTTPException(status_code=401, detail="Action not permitted")
     try:

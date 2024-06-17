@@ -4,7 +4,7 @@ from prefect import flow
 from app.core.models import User, Role
 from app.core.permissions import (
     check_token,
-    retrieve_user,
+    retrieve_user, hash_password,
 )
 from app.core.database import DBSessionManager
 from app.core.schemas import UserSchema
@@ -16,6 +16,7 @@ db: DBSessionManager = DBSessionManager()
 
 @flow
 def post_user_flow(user: UserSchema, body: dict) -> dict:
+    body["password"] = hash_password(body.pop("password"))
     try:
         valid_user = UserSchema(**body)
     except ValidationError as exc:
