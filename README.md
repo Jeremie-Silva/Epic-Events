@@ -42,12 +42,20 @@ pipenv run create_admin
 
 # Générer des fausses données si besoin
 pipenv run generate_fake_data
+
+pipenv run start_prefect  # dans un autre terminal
+yes n | pipenv run flow_deploy
 ```
 <br/>
 
 ### Lancement
 lancer l'application en local :
 ```bash
-pipenv run start_api
-pipenv run start_prefect  # dans un autre terminal
+pipenv run start_prefect
+
+# Démarrer le server web pour utiliser l'API
+pipenv run start_api  # dans un autre terminal
+
+# Démarrer l'app en lignes de commandes
+pipen run cli  # dans un autre terminal
 ```
