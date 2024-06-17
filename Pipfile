@@ -30,7 +30,6 @@ sentry-sdk = "*"
 
 [requires]
 python_version = "3.11"
-python_full_version = "3.11.8"
 
 [scripts]
 start_api = "python -m app.main"

@@ -10,7 +10,7 @@ Executer ces commandes dans un terminal **bash**
 pour installer installer le projet
 ```bash
 git clone git@github.com:Jeremie-Silva/Epic-Events.git
-cd books_reviews
+cd Epic-Events
 ```
 ```bash
 virtualenv -p3.11 .venv
