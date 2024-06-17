@@ -4,18 +4,20 @@ from tabulate import tabulate
 
 from app.core.models import User
 from app.core.schemas import UserSchema
-from app.endpoints.contract.get_contract import get_all_contract_flow
-from app.endpoints.contract.patch_contract import patch_contract_flow
+from app.endpoints.contract.get_contract import get_all_contract_flow, get_not_signed_contract_flow, \
+    get_not_paid_contract_flow
+from app.endpoints.contract.patch_contract import patch_contract_flow, patch_related_contract_flow
 from app.endpoints.contract.post_contract import post_contract_flow
 from app.endpoints.customer.get_customer import get_all_customer_flow
 from app.endpoints.customer.patch_customer import patch_related_customer_flow
 from app.endpoints.customer.post_customer import post_customer_flow
-from app.endpoints.event.patch_event import patch_event_flow
+from app.endpoints.event.patch_event import patch_event_flow, patch_related_event_flow
+from app.endpoints.event.post_event import post_event_flow
 from app.endpoints.user.delete_user import delete_user_flow
 from app.endpoints.user.get_user import get_all_user_flow
 from app.endpoints.user.patch_user import patch_user_flow
 from app.endpoints.user.post_user import post_user_flow
-from app.endpoints.event.get_event import get_all_event_flow, get_no_support_event_flow
+from app.endpoints.event.get_event import get_all_event_flow, get_no_support_event_flow, get_related_event_flow
 
 
 def ask_body_data(*args) -> dict:
@@ -152,6 +154,23 @@ def cli_get_no_support_event(user: User):
     )
 
 
+def cli_get_related_event(user: User):
+    data: dict = get_related_event_flow(UserSchema(**user.__dict__))
+    rprint(f"[bold green]Liste des évènements sans support : {data['count']} résultats")
+    rprint(
+        tabulate(
+            tabular_data=[i.__dict__ for i in data['results']],
+            headers="keys",
+            tablefmt="rounded_grid",
+            showindex=list(range(1, data['count'] + 1)),
+            missingval="?",
+            numalign="center",
+            stralign="center",
+            floatfmt="center",
+        )
+    )
+
+
 def cli_patch_event(user: User):
     event_id: int = int(typer.prompt(text="ID de l'évènement "))
     body: dict = ask_body_data("name", "contract_id", "customer_id",
@@ -160,8 +179,67 @@ def cli_patch_event(user: User):
     rprint(f"[bold green]{data['result']}")
 
 
+def cli_patch_related_event(user: User):
+    event_id: int = int(typer.prompt(text="ID de l'évènement "))
+    body: dict = ask_body_data("name", "contract_id", "customer_id",
+                               "support_contact_id", "location", "attendees", "notes")
+    data: dict = patch_related_event_flow(UserSchema(**user.__dict__), event_id, body)
+    rprint(f"[bold green]{data['result']}")
+
+
+def cli_post_event(user: User):
+    body: dict = ask_body_data("name", "contract_id", "customer_id",
+                               "support_contact_id", "location", "attendees", "notes")
+    data: dict = post_event_flow(UserSchema(**user.__dict__), body)
+    rprint(f"[bold green]{data['result']}")
+    rprint(
+        tabulate(
+            tabular_data=[data['new_event'].__dict__],
+            headers="keys",
+            tablefmt="rounded_grid",
+            showindex=list(range(1, 2)),
+            missingval="?",
+            numalign="center",
+            stralign="center",
+            floatfmt="center",
+        )
+    )
+
+
 def cli_get_all_contract(user: User):
     data: dict = get_all_contract_flow(UserSchema(**user.__dict__))
+    rprint(f"[bold green]Liste des contrats : {data['count']} résultats")
+    rprint(
+        tabulate(
+            tabular_data=[i.__dict__ for i in data['results']],
+            headers="keys",
+            tablefmt="rounded_grid",
+            showindex=list(range(1, data['count'] + 1)),
+            missingval="?",
+            numalign="center",
+            stralign="center",
+        )
+    )
+
+
+def cli_get_not_signed_contract(user: User):
+    data: dict = get_not_signed_contract_flow(UserSchema(**user.__dict__))
+    rprint(f"[bold green]Liste des contrats : {data['count']} résultats")
+    rprint(
+        tabulate(
+            tabular_data=[i.__dict__ for i in data['results']],
+            headers="keys",
+            tablefmt="rounded_grid",
+            showindex=list(range(1, data['count'] + 1)),
+            missingval="?",
+            numalign="center",
+            stralign="center",
+        )
+    )
+
+
+def cli_get_not_paid_contract(user: User):
+    data: dict = get_not_paid_contract_flow(UserSchema(**user.__dict__))
     rprint(f"[bold green]Liste des contrats : {data['count']} résultats")
     rprint(
         tabulate(
@@ -182,6 +260,15 @@ def cli_patch_contract(user: User):
         "customer_id", "salesman_id", "amount_total", "amount_outstanding", "state"
     )
     data: dict = patch_contract_flow(UserSchema(**user.__dict__), contract_id, body)
+    rprint(f"[bold green]{data['result']}")
+
+
+def cli_patch_related_contract(user: User):
+    contract_id: int = int(typer.prompt(text="ID du contrat "))
+    body: dict = ask_body_data(
+        "customer_id", "salesman_id", "amount_total", "amount_outstanding", "state"
+    )
+    data: dict = patch_related_contract_flow(UserSchema(**user.__dict__), contract_id, body)
     rprint(f"[bold green]{data['result']}")
 
 

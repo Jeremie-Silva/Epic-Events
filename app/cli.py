@@ -4,6 +4,7 @@ import typer
 from tabulate import tabulate
 
 from app.cli_tree.commercial_menu import menu_commercial
+from app.cli_tree.support_menu import menu_support
 from app.core.database import DBSessionManager
 from app.core.models import User, Role
 from app.core.permissions import verify_password
@@ -62,6 +63,8 @@ def main():
             menu_gestion(user)
         case Role.commercial:
             menu_commercial(user)
+        case Role.support:
+            menu_support(user)
         case _:
             return rprint(f"[bold red]Resource non accessible.")
 

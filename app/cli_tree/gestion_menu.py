@@ -23,7 +23,7 @@ def _ask_choices() -> dict:
                 " 9 - Liste des CONTRATS",
                 "10 - Modifier un CONTRAT",
                 "11 - Créer un CONTRAT",
-                "Exit"
+                "Sortie"
             ],
             carousel=True
         )
@@ -55,7 +55,7 @@ def menu_gestion(user: User):
             cli_patch_contract(user)
         case "11 - Créer un CONTRAT":
             cli_post_contract(user)
-        case "Exit":
+        case "Sortie":
             rprint(f"[bold green]Au revoir.")
             return
     menu_gestion(user)

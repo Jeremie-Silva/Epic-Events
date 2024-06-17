@@ -24,6 +24,7 @@ pytest = "*"
 freezegun = "*"
 faker = "*"
 inquirer = "*"
+sentry-sdk = "*"
 
 [dev-packages]
 

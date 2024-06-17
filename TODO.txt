@@ -1,13 +1,15 @@
+sentry
+
 BUG : post user > hash password
-BUG : Models > last_update
+BUG : catch les http 401 error
+BUG : vérifier à chaque fois que l'on récupere bien quelque chose dans la bdd
+
+
 readme.md
-1376 lignes et 26 fichiers.py
 ---------------------------------------------------------------
 
 Extras :
   - utiliser typer pour le cli
-    -> 1er menu pour s'authentifier (dans une boucle)
-    -> 2eme menu
   - fastapi (asynchrone, token, dependency injections)
   - pydantic avec ORM mode TRUE
   - prefect pour les logs
