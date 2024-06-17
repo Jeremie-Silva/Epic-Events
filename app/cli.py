@@ -7,7 +7,6 @@ from app.core.database import DBSessionManager
 from app.core.models import User, Role
 from app.core.permissions import verify_password
 from app.cli_tree.gestion_menu import menu_gestion
-from sentry_sdk.integrations.wsgi import SentryWsgiMiddleware
 import sentry_sdk
 
 
