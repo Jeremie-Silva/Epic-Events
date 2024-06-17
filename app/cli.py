@@ -59,6 +59,8 @@ def main():
             menu_commercial(user)
         case Role.support:
             menu_support(user)
+        case Role.admin:
+            return rprint(f"[bold red]Vous ètes admin, veuillez modifier votre role.")
         case _:
             return rprint(f"[bold red]Resource non accessible.")
 
