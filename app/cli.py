@@ -1,16 +1,11 @@
 from rich import print as rprint
 from rich.console import Console
 import typer
-from tabulate import tabulate
-
 from app.cli_tree.commercial_menu import menu_commercial
 from app.cli_tree.support_menu import menu_support
 from app.core.database import DBSessionManager
 from app.core.models import User, Role
 from app.core.permissions import verify_password
-import inquirer
-from app.core.schemas import UserSchema
-from app.endpoints.user.get_user import get_all_user_flow
 from app.cli_tree.gestion_menu import menu_gestion
 
 
@@ -36,10 +31,8 @@ LOGO: str = """
 
 
 def menu_authentication() -> User | None:
-    # username: str = typer.prompt(text="Username ")
-    # password: str = typer.prompt(text="Password ", hide_input=True, confirmation_prompt=True)
-    username: str = "test"
-    password: str = "test"
+    username: str = typer.prompt(text="Username ")
+    password: str = typer.prompt(text="Password ", hide_input=True, confirmation_prompt=True)
     user: User | None = db.get_obj(model=User, name=username)
     if user is None:
         return rprint(f"[bold red]Invalid username or password.")
