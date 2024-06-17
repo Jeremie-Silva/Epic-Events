@@ -53,9 +53,9 @@ lancer l'application en local :
 ```bash
 pipenv run start_prefect
 
-# Démarrer le server web pour utiliser l'API
+# Démarrer le server web pour utiliser l'API :
 pipenv run start_api  # dans un autre terminal
 
-# Démarrer l'app en lignes de commandes
+# Démarrer l'app en lignes de commandes :
 pipen run cli  # dans un autre terminal
 ```
