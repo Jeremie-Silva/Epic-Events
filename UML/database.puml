@@ -1,0 +1,66 @@
+@startuml
+
+enum ContractState {
+  signed
+  waiting
+}
+
+enum Role {
+  admin
+  support
+  commercial
+  gestion
+}
+
+class User {
+  **id** (int)
+  **name** (str)
+  **password** (str)
+  **creation_date** (DateTime)
+  **last_update** (DateTime)
+  **role** (Enum : Role)
+}
+
+class Customer {
+  **id** (int)
+  **salesman_id** (int)
+  **name** (str)
+  **email** (str)
+  **phone** (str)
+  **company_name** (str)
+  **creation_date** (Datetime)
+  **last_update** (DateTime)
+}
+
+class Contract {
+  **id** (int)
+  **customer_id** (int)
+  **salesman_id** (int)
+  **amount_total** (float)
+  **amount_outstanding** (float)
+  **creation_date** (Datetime)
+  **last_update** (Datetime)
+  **state** (Enum : ContractState)
+}
+
+class Event {
+  **id** (int)
+  **name** (str)
+  **contract_id** (str)
+  **customer_id** (int)
+  **start_date** (DateTime)
+  **end_date** (DateTime)
+  **support_contact_id** (int)
+  **location** (str)
+  **attendees** (int)
+  **notes** (str)
+}
+
+User "1" -- "0..*" Customer : "salesman_id <-> id"
+Customer "1" -- "0..*" Contract : "customer_id <-> id"
+User "1" -- "0..*" Contract : "salesman_id <-> id"
+Contract "1" -- "0..*" Event : "contract_id <-> id"
+Customer "1" -- "0..*" Event : "customer_id <-> id"
+User "1" -- "0..*" Event : "support_contact_id <-> id"
+
+@enduml
