@@ -64,6 +64,6 @@ pipenv run cli  # dans un autre terminal
 
 ### Générer un rapport de couverture
 ```bash
-pytest --cov=app --cov-report=html tests
+pytest --cov=app --cov-config=.coveragerc --cov-report=html tests
 google-chrome http://localhost:63342/Epic-Events/htmlcov/index.html
 ```
