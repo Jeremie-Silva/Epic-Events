@@ -48,7 +48,7 @@ yes n | pipenv run flow_deploy
 ```
 <br/>
 
-### Lancement
+### Lancement de l'app
 lancer l'application en local :
 ```bash
 pipenv run start_prefect
@@ -58,4 +58,12 @@ pipenv run start_api  # dans un autre terminal
 
 # Démarrer l'app en lignes de commandes :
 pipenv run cli  # dans un autre terminal
+```
+
+<br/>
+
+### Générer un rapport de couverture
+```bash
+pytest --cov=app --cov-report=html tests
+google-chrome http://localhost:63342/Epic-Events/htmlcov/index.html
 ```

@@ -25,6 +25,8 @@ freezegun = "*"
 faker = "*"
 inquirer = "*"
 sentry-sdk = "*"
+pytest-cov = "*"
+coverage = "*"
 
 [dev-packages]
 

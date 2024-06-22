@@ -1,10 +1,7 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Enum as SQLEnum, Boolean, event, Float
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Enum as SQLEnum, Float
 from sqlalchemy.orm import relationship, declarative_base
 from enum import Enum
 from datetime import datetime
-from passlib.hash import bcrypt
-from email_validator import validate_email
-from phonenumbers import parse, is_valid_number
 
 
 Base = declarative_base()
