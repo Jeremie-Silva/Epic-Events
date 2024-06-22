@@ -57,5 +57,5 @@ pipenv run start_prefect
 pipenv run start_api  # dans un autre terminal
 
 # Démarrer l'app en lignes de commandes :
-pipen run cli  # dans un autre terminal
+pipenv run cli  # dans un autre terminal
 ```
