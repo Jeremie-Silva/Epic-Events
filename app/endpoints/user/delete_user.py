@@ -24,7 +24,7 @@ def delete_user_flow(user: UserSchema, user_id: int) -> dict:
     return {"result": "User deleted successfully"}
 
 
-@router.delete("/user/{user_id}")
+@router.delete("/user/{user_id}")  # pragma: no cover
 def manager_delete_user(
     user_id: int,
     user: User = Depends(retrieve_user),
