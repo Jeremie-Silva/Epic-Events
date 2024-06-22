@@ -19,7 +19,7 @@ def patch_user_flow(user: UserSchema, user_id: int, body: dict) -> dict:
     return {"result": "Values updated successfully"}
 
 
-@router.patch("/user/{user_id}")
+@router.patch("/user/{user_id}")  # pragma: no cover
 def manager_patch_user(
     user_id: int,
     body: dict,

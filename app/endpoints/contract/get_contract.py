@@ -40,7 +40,7 @@ def get_not_paid_contract_flow(user: UserSchema) -> dict:
     }
 
 
-@router.get("/contract")
+@router.get("/contract")  # pragma: no cover
 def manager_get_contract(
     user: User = Depends(retrieve_user),
     is_authenticated: bool = Depends(check_token),

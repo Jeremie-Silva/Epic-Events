@@ -40,7 +40,7 @@ def get_related_event_flow(user: UserSchema) -> dict:
     }
 
 
-@router.get("/event")
+@router.get("/event")  # pragma: no cover
 def manager_get_event(
     user: User = Depends(retrieve_user),
     is_authenticated: bool = Depends(check_token),

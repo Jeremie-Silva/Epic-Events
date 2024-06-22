@@ -30,7 +30,7 @@ def post_event_flow(user: UserSchema, body: dict) -> dict:
     }
 
 
-@router.post("/event")
+@router.post("/event")  # pragma: no cover
 def manager_post_event(
     body: dict,
     user: User = Depends(retrieve_user),

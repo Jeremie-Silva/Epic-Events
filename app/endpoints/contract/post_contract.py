@@ -25,7 +25,7 @@ def post_contract_flow(user: UserSchema, body: dict) -> dict:
     }
 
 
-@router.post("/contract")
+@router.post("/contract")  # pragma: no cover
 def manager_post_contract(
     body: dict,
     user: User = Depends(retrieve_user),

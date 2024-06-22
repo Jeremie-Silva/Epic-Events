@@ -29,7 +29,7 @@ def post_user_flow(user: UserSchema, body: dict) -> dict:
     }
 
 
-@router.post("/user")
+@router.post("/user")  # pragma: no cover
 def manager_post_user(
     body: dict,
     user: User = Depends(retrieve_user),

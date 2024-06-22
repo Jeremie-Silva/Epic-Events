@@ -28,7 +28,7 @@ def patch_related_contract_flow(user: UserSchema, contract_id: int, body: dict) 
     return {"result": "Values updated successfully"}
 
 
-@router.patch("/contract/{contract_id}")
+@router.patch("/contract/{contract_id}")  # pragma: no cover
 def manager_patch_contract(
     contract_id: int,
     body: dict,

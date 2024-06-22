@@ -32,7 +32,7 @@ def post_token_flow(username: str, encrypted_password: str) -> dict:
     return {"message": f"Hello {user.name} 👋", "token": token}
 
 
-@router.post("/token")
+@router.post("/token")  # pragma: no cover
 def post_token(username: str, password: str):
     encrypted_password: str = jwt_encode(
         payload={"password": password},

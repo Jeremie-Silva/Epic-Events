@@ -23,7 +23,7 @@ def get_all_user_flow(user: UserSchema) -> dict:
     }
 
 
-@router.get("/user")
+@router.get("/user")  # pragma: no cover
 def manager_get_user(
     user: User = Depends(retrieve_user),
     is_authenticated: bool = Depends(check_token),

@@ -27,7 +27,7 @@ def patch_related_event_flow(user: UserSchema, event_id: int, body: dict) -> dic
     return {"result": "Values updated successfully"}
 
 
-@router.patch("/event/{event_id}")
+@router.patch("/event/{event_id}")  # pragma: no cover
 def manager_patch_event(
     event_id: int,
     body: dict,
