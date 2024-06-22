@@ -177,7 +177,7 @@ def cli_get_related_event(user: User):
 def cli_patch_event(user: User):
     event_id: int = int(typer.prompt(text="ID de l'évènement "))
     body: dict = ask_body_data("name", "contract_id", "customer_id",
-                               "support_contact_id","location", "attendees", "notes")
+                               "support_contact_id", "location", "attendees", "notes")
     data: dict = patch_event_flow(UserSchema(**user.__dict__), event_id, body)
     rprint(f"[bold green]{data['result']}")
 
